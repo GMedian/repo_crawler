@@ -17,8 +17,6 @@ def clone(url=None, repo_path="/tmp/tmp/"):
 
     git.Repo.clone_from(url=url, to_path=repo_path)
 
-    # shutil.rmtree(os.path.join(repo_path, ".git"))
-
 
 def rm(repo_path="/tmp/tmp/", leave_ext: tuple = (), to_path="/tmp/tmp2/"):
     for dirpath, dirname, files in os.walk(repo_path):
@@ -34,7 +32,9 @@ def rm(repo_path="/tmp/tmp/", leave_ext: tuple = (), to_path="/tmp/tmp2/"):
 
 def clear_target_dir(path: str = ""):
     if not os.path.isdir(path):
-        raise ValueError("Path should be a directory")
+        os.mkdir(path, 0o700)
+        return
+    # else, clean the dir
     for filename in os.scandir(path):
         file_path = os.path.join(path, filename)
         try:
